@@ -6,17 +6,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import copy from "copy-to-clipboard";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import isURL from "validator/lib/isURL";
 import LoginButton from "./components/login_button";
-import { toast } from "react-toastify";
-import copy from "copy-to-clipboard";
-import { set } from "mongoose";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [url, setUrl] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(false);
@@ -42,6 +41,38 @@ export default function Home() {
       setHelperText("URL copied to clipboard");
       setDisabled(false);
     }
+  }
+
+  if (status === "loading") {
+    return (
+      <Container maxWidth="md">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+        >
+          <Grid
+            container
+            spacing={2}
+            direction={"row"}
+            justifyContent={"center"}
+            textAlign={"center"}
+          >
+            <Grid item xs={12}>
+              <Typography variant="h3" fontWeight={500}>
+                URL shortener
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h3" fontWeight={300}>
+                Loading...
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+    );
   }
 
   return (

@@ -11,9 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 export default function Recent() {
-  // const { data: session } = useSession();
+  const router = useRouter();
   const [urls, setUrls] = useState<UrlSchema[]>([]);
 
   const { data: session, status } = useSession();
@@ -27,7 +29,28 @@ export default function Recent() {
   }, [session?.user?.email]);
 
   if (status === "unauthenticated") {
-    return <p>Access Denied</p>;
+    router.push("/");
+  }
+
+  if (status === "loading") {
+    return (
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          placeItems: "center",
+          justifyContent: "center",
+          marginTop: "1em",
+        }}
+      >
+        <Typography variant="h3" fontWeight={500}>
+          History
+        </Typography>
+        <p>Loading...</p>
+      </Grid>
+    );
   }
 
   return (
@@ -82,9 +105,10 @@ export default function Recent() {
                 <CardActions sx={{ justifyContent: "end" }}>
                   <Button
                     size="small"
-                    onClick={() =>
-                      copy(window.location.origin + "/" + data?.slug)
-                    }
+                    onClick={() => {
+                      copy(window.location.origin + "/" + data?.slug);
+                      toast.success("URL shortened successfully");
+                    }}
                   >
                     copy URL
                   </Button>
