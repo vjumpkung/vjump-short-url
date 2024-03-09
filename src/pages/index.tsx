@@ -1,4 +1,11 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -38,57 +45,55 @@ export default function Home() {
   }
 
   return (
-    <Grid
-      container
-      spacing={1}
-      sx={{
-        position: "fixed",
-        top: "0",
-        left: "0",
-        right: "0",
-        bottom: "0",
-        display: "flex",
-        minHeight: "100vh",
-        flexDirection: "column",
-        placeItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Grid item>
-        <Typography variant="h3" fontWeight={500}>
-          Shorten URL
-        </Typography>
-      </Grid>
-      <Grid item>
-        <TextField
-          type="text"
-          label="URL to shorten"
-          id="long_url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          error={isError}
-          sx={{ width: "50vh" }}
-          disabled={disabled}
-          helperText={helperText}
-        />
-      </Grid>
-
-      <Grid item>
-        <Button variant="contained" onClick={onSubmit} disabled={disabled}>
-          Shorten
-        </Button>
-      </Grid>
-
-      <Grid item>
-        {session ? (
-          <Link href="/recent">
-            <Button sx={{ marginX: "0.25em" }} variant="outlined">
-              Recent
+    <Container maxWidth="md">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
+        <Grid
+          container
+          spacing={2}
+          direction={"row"}
+          justifyContent={"center"}
+          textAlign={"center"}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h3" fontWeight={500}>
+              URL shortener
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type="text"
+              label="URL to shorten"
+              id="long_url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              error={isError}
+              fullWidth
+              disabled={disabled}
+              helperText={helperText}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" onClick={onSubmit} disabled={disabled}>
+              Shorten
             </Button>
-          </Link>
-        ) : null}
-        <LoginButton />
-      </Grid>
-    </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            {session ? (
+              <Link href="/recent">
+                <Button sx={{ marginX: "0.25em" }} variant="outlined">
+                  Recent
+                </Button>
+              </Link>
+            ) : null}
+            <LoginButton />
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
   );
 }
