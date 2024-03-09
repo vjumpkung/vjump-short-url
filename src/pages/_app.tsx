@@ -1,6 +1,29 @@
-import "@/styles/globals.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
+import { SessionProvider } from "next-auth/react";
+import CssBaseline from "@mui/material/CssBaseline";
 import type { AppProps } from "next/app";
+import { createTheme } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <AppCacheProvider {...pageProps}>
+      <SessionProvider session={pageProps.session}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </SessionProvider>
+    </AppCacheProvider>
+  );
 }
