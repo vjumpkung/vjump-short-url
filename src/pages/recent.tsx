@@ -62,7 +62,7 @@ export default function Recent() {
       >
         {urls.map((data) => {
           return (
-            <Grid item>
+            <Grid item key={data.slug}>
               <Card sx={{ maxWidth: 300 }}>
                 <CardContent>
                   <Typography
