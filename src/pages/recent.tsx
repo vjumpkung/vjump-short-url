@@ -107,7 +107,7 @@ export default function Recent() {
                     size="small"
                     onClick={() => {
                       copy(window.location.origin + "/" + data?.slug);
-                      toast.success("URL shortened successfully");
+                      toast.success("Copy short url to clipboard!");
                     }}
                   >
                     copy URL
