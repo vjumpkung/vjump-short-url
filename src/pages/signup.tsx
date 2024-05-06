@@ -18,7 +18,7 @@ export default function SignUp() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign Up
         </Typography>
         <Box sx={{ mt: 1 }}>
           <TextField
@@ -60,7 +60,11 @@ export default function SignUp() {
                   toast.success("User created successfully");
                   router.push("/signin");
                 } else {
-                  toast.error("Error creating user");
+                  if (res.status === 409) {
+                    toast.error("User already exists");
+                  } else {
+                    toast.error("Error creating user");
+                  }
                 }
               });
             }}

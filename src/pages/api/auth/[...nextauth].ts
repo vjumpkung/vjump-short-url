@@ -5,7 +5,7 @@ import user from "@/schema/user";
 import Credentials from "next-auth/providers/credentials";
 import { DefaultJWT } from "next-auth/jwt";
 import { AdapterUser } from "next-auth/adapters";
-import * as argon2 from "argon2";
+import bcrypt from "bcrypt";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -87,9 +87,9 @@ export const authOptions: NextAuthOptions = {
         }
 
         if (
-          await argon2.verify(
-            checkUser.password,
-            credentials?.password as string
+          await bcrypt.compare(
+            credentials?.password as string,
+            checkUser.password
           )
         ) {
           // Any object returned will be saved in `user` property of the JWT

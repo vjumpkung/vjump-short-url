@@ -18,8 +18,8 @@
     "@mui/material": "^5.15.16",
     "@mui/material-nextjs": "^5.15.11",
     "@typegoose/typegoose": "^12.4.0",
-    "argon2": "^0.40.1",
     "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
     "copy-to-clipboard": "^3.3.3",
     "mongoose": "^8.3.3",
     "next": "14.2.3",
@@ -32,6 +32,7 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.12.10",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
