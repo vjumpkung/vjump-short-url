@@ -12,21 +12,18 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import axios from "axios";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function Recent() {
   const router = useRouter();
-  const [urls, setUrls] = useState<UrlSchema[]>([]);
 
   const { data: session, status } = useSession();
 
-  useEffect(() => {
-    if (session?.user?.email) {
-      fetch(`/api/recent?user=${session?.user?.email}`)
-        .then((res) => res.json())
-        .then((data) => setUrls(data));
-    }
-  }, [session?.user?.email]);
+  const fetchData = useSWR(`/api/recent?id=${session?.user?.id}`, fetcher);
 
   if (status === "unauthenticated") {
     router.push("/");
@@ -83,7 +80,7 @@ export default function Recent() {
           marginTop: "1em",
         }}
       >
-        {urls.map((data) => {
+        {fetchData.data?.map((data: UrlSchema) => {
           return (
             <Grid item key={data.slug}>
               <Card sx={{ maxWidth: 300 }}>
@@ -120,7 +117,7 @@ export default function Recent() {
       </Grid>
       <Grid item>
         <Link href="/">
-          <Button sx={{ marginX: "0.25em" }} variant="outlined">
+          <Button sx={{ marginX: "0.25em", marginY: "1em" }} variant="outlined">
             Back
           </Button>
         </Link>

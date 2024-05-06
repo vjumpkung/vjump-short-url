@@ -22,6 +22,7 @@ export default function Home() {
   const [helperText, setHelperText] = useState<string>("");
 
   async function onSubmit() {
+    console.log(session);
     setDisabled(true);
     if (!isURL(url) || !url.includes("https://")) {
       setIsError(true);
@@ -31,7 +32,7 @@ export default function Home() {
     } else {
       const res = await fetch("/api/url", {
         method: "POST",
-        body: JSON.stringify({ user: session?.user?.email, url: url }),
+        body: JSON.stringify({ user: session?.user?.id, url: url }),
       });
       const data = await res.json();
       setUrl("");
@@ -82,6 +83,10 @@ export default function Home() {
         justifyContent="center"
         alignItems="center"
         minHeight="100vh"
+        left={0}
+        right={0}
+        top={0}
+        bottom={0}
       >
         <Grid
           container

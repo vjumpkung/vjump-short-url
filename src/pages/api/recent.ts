@@ -9,8 +9,8 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     await connectDB();
-    const { user } = req.query;
-    const urls = await url.find({ user: user }).sort({ createdAt: -1 }).exec();
+    const { id } = req.query;
+    const urls = await url.find({ user: id }).sort({ createdAt: -1 }).exec();
     if (!urls) {
       return res.status(404).json({ error: "URL not found" });
     }
