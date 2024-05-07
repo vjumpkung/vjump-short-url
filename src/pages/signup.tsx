@@ -1,6 +1,7 @@
 import user from "@/schema/user";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -14,6 +15,9 @@ export default function SignUp() {
   const [helperText, setHelperText] = useState<string>("");
   return (
     <Container component="main" maxWidth="xs">
+      <Head>
+        <title>URL Shortener - Sign Up</title>
+      </Head>
       <Box
         sx={{
           marginTop: 8,
@@ -86,7 +90,7 @@ export default function SignUp() {
                   password: password,
                 })
                 .then((res) => {
-                  if (res.status === 200) {
+                  if (res.status === 201) {
                     toast.success("User created successfully");
                     router.push("/signin");
                   } else {

@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 export default function LoginButton() {
   const { data: session } = useSession();
@@ -14,6 +15,7 @@ export default function LoginButton() {
           variant="outlined"
           onClick={() =>
             signOut({ callbackUrl: "/", redirect: false }).then(() => {
+              toast.success("Signed out successfully");
               router.push("/");
             })
           }

@@ -34,7 +34,7 @@ export default async function createUserHandler(
   }
   try {
     const newUser = await CreateUser(username, password);
-    return res.status(201).json(newUser);
+    return res.status(201).json({ message: "User created successfully" });
   } catch (error: any) {
     if (error.message === "User already exists") {
       return res.status(409).json({ error: "User already exists" });

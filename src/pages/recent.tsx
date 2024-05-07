@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { UrlSchema } from "./api/url";
 import copy from "copy-to-clipboard";
 import {
+  Box,
   Button,
   Card,
   CardActions,
   CardContent,
+  CircularProgress,
+  Container,
   Grid,
   Typography,
 } from "@mui/material";
@@ -15,6 +18,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import Head from "next/head";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -29,24 +33,34 @@ export default function Recent() {
     router.push("/");
   }
 
-  if (status === "loading") {
+  if (status === "loading" || fetchData.isLoading) {
     return (
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          placeItems: "center",
-          justifyContent: "center",
-          marginTop: "1em",
-        }}
-      >
-        <Typography variant="h3" fontWeight={500}>
-          History
-        </Typography>
-        <p>Loading...</p>
-      </Grid>
+      <Container maxWidth="md">
+        <Head>
+          <title>URL Shortener - Recents</title>
+        </Head>
+        <Box
+          position={"fixed"}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+          left={0}
+          right={0}
+          top={0}
+          bottom={0}
+        >
+          <Grid
+            container
+            spacing={2}
+            direction={"row"}
+            justifyContent={"center"}
+            textAlign={"center"}
+          >
+            <CircularProgress />
+          </Grid>
+        </Box>
+      </Container>
     );
   }
 
@@ -62,12 +76,24 @@ export default function Recent() {
         marginTop: "1em",
       }}
     >
+      <Head>
+        <title>URL Shortener - Recents</title>
+      </Head>
       <Grid item>
         <Typography variant="h3" fontWeight={500}>
           History
         </Typography>
       </Grid>
-
+      <Grid item>
+        <Link href="/">
+          <Button
+            sx={{ marginX: "0.25em", marginY: "0.25em" }}
+            variant="outlined"
+          >
+            Back
+          </Button>
+        </Link>
+      </Grid>
       <Grid
         container
         spacing={2}
@@ -114,13 +140,6 @@ export default function Recent() {
             </Grid>
           );
         })}
-      </Grid>
-      <Grid item>
-        <Link href="/">
-          <Button sx={{ marginX: "0.25em", marginY: "1em" }} variant="outlined">
-            Back
-          </Button>
-        </Link>
       </Grid>
     </Grid>
   );

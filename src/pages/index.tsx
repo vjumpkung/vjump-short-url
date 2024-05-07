@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   TextField,
@@ -13,6 +14,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import isURL from "validator/lib/isURL";
 import LoginButton from "./components/login_button";
+import Head from "next/head";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -47,11 +49,19 @@ export default function Home() {
   if (status === "loading") {
     return (
       <Container maxWidth="md">
+        <Head>
+          <title>URL Shortener</title>
+        </Head>
         <Box
+          position={"fixed"}
           display="flex"
           justifyContent="center"
           alignItems="center"
           minHeight="100vh"
+          left={0}
+          right={0}
+          top={0}
+          bottom={0}
         >
           <Grid
             container
@@ -60,16 +70,7 @@ export default function Home() {
             justifyContent={"center"}
             textAlign={"center"}
           >
-            <Grid item xs={12}>
-              <Typography variant="h3" fontWeight={500}>
-                URL shortener
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h3" fontWeight={300}>
-                Loading...
-              </Typography>
-            </Grid>
+            <CircularProgress />
           </Grid>
         </Box>
       </Container>
@@ -78,7 +79,11 @@ export default function Home() {
 
   return (
     <Container maxWidth="md">
+      <Head>
+        <title>URL Shortener</title>
+      </Head>
       <Box
+        position={"fixed"}
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -100,7 +105,7 @@ export default function Home() {
               URL shortener
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} marginX={"0.5em"}>
             <TextField
               type="text"
               label="URL to shorten"
@@ -108,9 +113,10 @@ export default function Home() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               error={isError}
-              fullWidth
+              fullWidth={true}
               disabled={disabled}
               helperText={helperText}
+              sx={{ maxWidth: "700px" }}
             />
           </Grid>
           <Grid item xs={12}>

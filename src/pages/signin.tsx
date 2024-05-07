@@ -17,6 +17,7 @@ import { getCsrfToken, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
+import Head from "next/head";
 
 export default function SignIn({
   csrfToken,
@@ -29,6 +30,9 @@ export default function SignIn({
 
   return (
     <Container component="main" maxWidth="xs">
+      <Head>
+        <title>URL Shortener - Sign In</title>
+      </Head>
       <Box
         sx={{
           marginTop: 8,
@@ -70,7 +74,7 @@ export default function SignIn({
               display: errMsg ? "block" : "none",
             }}
           >
-            {"check your username and password"}
+            {errMsg}
           </Typography>
           <Button
             type="submit"
@@ -78,11 +82,16 @@ export default function SignIn({
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             onClick={() => {
+              if (username === "" || password === "") {
+                setErrMsg("username and password are required");
+                return;
+              }
+
               signIn("credentials", {
                 callbackUrl: "/",
                 redirect: false,
-                username,
-                password,
+                username: username,
+                password: password,
               }).then((res) => {
                 if (res?.status === 401) {
                   setErrMsg("check your username and password");
