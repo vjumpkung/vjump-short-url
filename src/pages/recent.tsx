@@ -52,7 +52,6 @@ export default function Recent() {
         >
           <Grid
             container
-            spacing={2}
             direction={"row"}
             justifyContent={"center"}
             textAlign={"center"}
@@ -103,7 +102,8 @@ export default function Recent() {
           flexDirection: "row",
           placeItems: "center",
           justifyContent: "center",
-          marginTop: "1em",
+          marginTop: "0.5em",
+          marginBottom: "1em",
         }}
       >
         {fetchData.data?.map((data: UrlSchema) => {
