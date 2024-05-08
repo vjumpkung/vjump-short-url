@@ -151,14 +151,23 @@ export default function Home() {
               )}
             </IconButton>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item>
             <Link
               href="https://github.com/vjumpkung/vjump-short-url"
-              style={{ textDecoration: "none" }}
               rel="noopener noreferrer"
               target="_blank"
+              style={{
+                all: "initial",
+              }}
             >
-              <Box sx={{ alignSelf: "center", color: "text.primary" }}>
+              <Box
+                sx={{
+                  color: "text.primary",
+                  textDecoration: "none",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+              >
                 <Typography textAlign={"center"}>
                   Created by vjumpkung
                 </Typography>
