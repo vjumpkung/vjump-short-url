@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UrlSchema } from "./api/url";
 import copy from "copy-to-clipboard";
 import {
@@ -11,7 +11,9 @@ import {
   CircularProgress,
   Container,
   Grid,
+  IconButton,
   Typography,
+  useTheme,
 } from "@mui/material";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -19,6 +21,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import Head from "next/head";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { ColorModeContext } from "./_app";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -28,6 +33,8 @@ export default function Recent() {
   const { data: session, status } = useSession();
 
   const fetchData = useSWR(`/api/recent?id=${session?.user?.id}`, fetcher);
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   if (status === "unauthenticated") {
     router.push("/");
@@ -66,7 +73,6 @@ export default function Recent() {
   return (
     <Grid
       container
-      spacing={2}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -83,6 +89,15 @@ export default function Recent() {
           History
         </Typography>
       </Grid>
+      <Grid item xs={12}>
+        <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+          {theme.palette.mode === "dark" ? (
+            <Brightness7Icon />
+          ) : (
+            <Brightness4Icon />
+          )}
+        </IconButton>
+      </Grid>
       <Grid item>
         <Link href="/">
           <Button
@@ -95,20 +110,26 @@ export default function Recent() {
       </Grid>
       <Grid
         container
-        spacing={2}
         maxWidth="md"
         sx={{
           display: "flex",
           flexDirection: "row",
           placeItems: "center",
           justifyContent: "center",
-          marginTop: "0.5em",
+          marginTop: "1em",
           marginBottom: "1em",
+          marginX: "auto",
         }}
       >
         {fetchData.data?.map((data: UrlSchema) => {
           return (
-            <Grid item key={data.slug}>
+            <Grid
+              item
+              key={data.slug}
+              sx={{
+                padding: "0.5em",
+              }}
+            >
               <Card sx={{ maxWidth: 300 }}>
                 <CardContent>
                   <Typography

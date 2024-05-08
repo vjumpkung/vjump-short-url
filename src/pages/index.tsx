@@ -4,17 +4,23 @@ import {
   CircularProgress,
   Container,
   Grid,
+  IconButton,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import copy from "copy-to-clipboard";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import isURL from "validator/lib/isURL";
 import LoginButton from "./components/login_button";
 import Head from "next/head";
+import { ColorModeContext } from "./_app";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import GitHub from "@mui/icons-material/GitHub";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -22,6 +28,8 @@ export default function Home() {
   const [isError, setIsError] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<string>("");
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   async function onSubmit() {
     console.log(session);
@@ -78,7 +86,7 @@ export default function Home() {
   }
 
   return (
-    <Container maxWidth="md">
+    <Container>
       <Head>
         <title>URL Shortener</title>
       </Head>
@@ -105,7 +113,7 @@ export default function Home() {
               URL shortener
             </Typography>
           </Grid>
-          <Grid item xs={12} marginX={"0.5em"}>
+          <Grid item xs={12} marginX={"0.75em"}>
             <TextField
               type="text"
               label="URL to shorten"
@@ -133,6 +141,30 @@ export default function Home() {
               </Link>
             ) : null}
             <LoginButton />
+          </Grid>
+          <Grid item xs={12}>
+            <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+              {theme.palette.mode === "dark" ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
+            </IconButton>
+          </Grid>
+          <Grid item xs={12}>
+            <Link
+              href="https://github.com/vjumpkung/vjump-short-url"
+              style={{ textDecoration: "none" }}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Box sx={{ alignSelf: "center", color: "text.primary" }}>
+                <Typography textAlign={"center"}>
+                  Created by vjumpkung
+                </Typography>
+                <GitHub />
+              </Box>
+            </Link>
           </Grid>
         </Grid>
       </Box>
