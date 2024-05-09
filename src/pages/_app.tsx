@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SessionProvider session={pageProps.session}>
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
-            <ToastContainer />
+            <ToastContainer theme={mode === "light" ? "dark" : "light"} />
             <CssBaseline />
             <Component {...pageProps} />
           </ThemeProvider>

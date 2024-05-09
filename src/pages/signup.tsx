@@ -1,18 +1,24 @@
-import user from "@/schema/user";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function SignUp() {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<string>("");
+
+  if (status === "authenticated") {
+    router.push("/");
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <Head>

@@ -1,7 +1,9 @@
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import GitHub from "@mui/icons-material/GitHub";
 import {
   Box,
   Button,
-  CircularProgress,
   Container,
   Grid,
   IconButton,
@@ -11,16 +13,14 @@ import {
 } from "@mui/material";
 import copy from "copy-to-clipboard";
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import isURL from "validator/lib/isURL";
-import LoginButton from "./components/login_button";
-import Head from "next/head";
 import { ColorModeContext } from "./_app";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import GitHub from "@mui/icons-material/GitHub";
+import Loading from "./components/loading";
+import LoginButton from "./components/login_button";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -55,34 +55,7 @@ export default function Home() {
   }
 
   if (status === "loading") {
-    return (
-      <Container maxWidth="md">
-        <Head>
-          <title>URL Shortener</title>
-        </Head>
-        <Box
-          position={"fixed"}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight="100vh"
-          left={0}
-          right={0}
-          top={0}
-          bottom={0}
-        >
-          <Grid
-            container
-            spacing={2}
-            direction={"row"}
-            justifyContent={"center"}
-            textAlign={"center"}
-          >
-            <CircularProgress />
-          </Grid>
-        </Box>
-      </Container>
-    );
+    return <Loading />;
   }
 
   return (

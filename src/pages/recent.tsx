@@ -1,29 +1,27 @@
-import { useSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
-import { UrlSchema } from "./api/url";
-import copy from "copy-to-clipboard";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import {
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
-  CircularProgress,
-  Container,
   Grid,
   IconButton,
   Typography,
   useTheme,
 } from "@mui/material";
-import Link from "next/link";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { useRouter } from "next/router";
-import useSWR from "swr";
+import copy from "copy-to-clipboard";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import { toast } from "react-toastify";
+import useSWR from "swr";
 import { ColorModeContext } from "./_app";
+import { UrlSchema } from "./api/url";
+import Loading from "./components/loading";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -41,33 +39,7 @@ export default function Recent() {
   }
 
   if (status === "loading" || fetchData.isLoading) {
-    return (
-      <Container maxWidth="md">
-        <Head>
-          <title>URL Shortener - Recents</title>
-        </Head>
-        <Box
-          position={"fixed"}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight="100vh"
-          left={0}
-          right={0}
-          top={0}
-          bottom={0}
-        >
-          <Grid
-            container
-            direction={"row"}
-            justifyContent={"center"}
-            textAlign={"center"}
-          >
-            <CircularProgress />
-          </Grid>
-        </Box>
-      </Container>
-    );
+    return <Loading />;
   }
 
   return (
